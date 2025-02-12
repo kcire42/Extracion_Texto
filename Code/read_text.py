@@ -45,6 +45,8 @@ def mejorar_imagen(imagen):
     _,imagen_binaria = cv2.threshold(imagen_np,128,255,cv2.THRESH_BINARY)
     imagen_mejorada = Image.fromarray(imagen_binaria)
     return imagen_mejorada
+    
+
 
 #Configuracion de Ventana
 ventana = tk.Tk()
