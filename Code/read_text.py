@@ -7,23 +7,30 @@ import pytesseract
 def load_image():
     archivo = filedialog.askopenfilename()
     if archivo:
-        print("Loading image")
+        txt_resultado.delete(1.0,tk.END)
+        txt_resultado.insert(tk.END,"Loading image","color")
+        txt_resultado.insert(tk.END, "\n")
         imagen = Image.open(archivo)
         imagen.thumbnail((400,400))
         img = ImageTk.PhotoImage(imagen)
         lbl_imagen.image = img
         lbl_imagen.path = archivo
+        txt_resultado.insert(tk.END,"Image loaded successfully","color")
 
 #Extraer texto de la imagen 
 def extraer_texto():
     try:
-        print("Extracting text")  # Imprimir mensaje de progreso
+        txt_resultado.delete(1.0,tk.END)  # Imprimir mensaje de progreso
+        txt_resultado.insert(tk.END, "Extracting text","color")
         if hasattr(lbl_imagen,'path'):
             texto = pytesseract.image_to_string(Image.open(lbl_imagen.path)) #Extraer texto
-            txt_resultado.delete(1.0,tk.END) #Borra el texto anteriro del recuadro para despues insertarlo
-            txt_resultado.insert(tk.END, texto)
+            txt_resultado.insert(tk.END, "\n")  # Insertar salto de linea
+            txt_resultado.insert(tk.END, texto,"color")
     except Exception as e:
         print(f"Error al extraer texto: {e}")
+
+def mejorar_imagen():
+    pass
 
 #Configuracion de Ventana
 ventana = tk.Tk()
@@ -45,6 +52,8 @@ btn_extraer.pack()
 #Cuadro para mostrar el resultado
 txt_resultado = tk.Text(ventana, height=50, width=100)
 txt_resultado.pack(pady=10)
+txt_resultado.tag_config("color",foreground="#00ff00")
+txt_resultado.insert(tk.END, "Carge una imagen para iniciar el analisis","color")
 
 #Ejecutar la aplicacion 
 ventana.mainloop()
